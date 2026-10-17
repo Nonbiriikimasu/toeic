@@ -169,12 +169,46 @@ const POOL_PC = [
     r:"後ろが S+V(he worked at the bank)なので接続詞 while(~する間に)。during / despite / in spite of は前置詞です。", ja:"彼は銀行で働きながら、夜に法律を勉強した。" }
 ];
 
+// ===== 代名詞・関係詞・比較プール（t: 出題ポイント）=====
+const POOL_MISC = [
+  // --- 代名詞の格 ---
+  { t:"代名詞(所有格)", s:"Mr. Smith submitted ____ quarterly report to the director.", c:["he","his","him","himself"], a:1,
+    r:"名詞(quarterly report)の前には【所有格】が入ります。his(彼の)が正解です。", ja:"スミス氏は部長に四半期報告書を提出した。" },
+  { t:"代名詞(再帰代名詞)", s:"The CEO ____ inspected the new factory in Nagoya.", c:["he","his","him","himself"], a:3,
+    r:"主語(The CEO)を強調する「CEO自身が」という意味で【再帰代名詞 himself】が入ります。", ja:"CEO自らが名古屋の新工場を視察した。" },
+  { t:"代名詞(所有代名詞)", s:"Her sales figures were higher than ____.", c:["my","me","mine","myself"], a:2,
+    r:"「私のもの(my sales figures)」を意味する【所有代名詞 mine】が入ります。than my は後ろに名詞が必要です。", ja:"彼女の売上数字は私のものより高かった。" },
+  { t:"代名詞(指示代名詞)", s:"The products made in Japan are better than ____ imported from overseas.", c:["that","those","this","them"], a:1,
+    r:"複数名詞(products)の繰り返しを避ける指示代名詞は【those】です。(単数なら that)", ja:"日本製の製品は海外から輸入されたものより優れている。" },
+
+  // --- 関係詞 ---
+  { t:"関係代名詞(主格)", s:"We need to hire a technician ____ has experience with robotics.", c:["who","which","whose","whom"], a:0,
+    r:"先行詞が「人(technician)」で、直後に動詞(has)が続いているため【主格の who】が正解です。", ja:"ロボット工学の経験がある技術者を雇う必要がある。" },
+  { t:"関係代名詞(所有格)", s:"The company interviewed a candidate ____ background is in digital marketing.", c:["who","which","whose","whom"], a:2,
+    r:"先行詞(candidate)と直後の名詞(background)の間で「〜の」という所有関係が成り立つため【whose】が正解です。", ja:"その会社はデジタルマーケティングの経歴を持つ候補者と面接した。" },
+  { t:"関係代名詞(目的格/物)", s:"This is the software ____ the IT department recommended.", c:["who","whom","whose","which"], a:3,
+    r:"先行詞が「物(software)」なので【which】(または that)が正解です。", ja:"これがIT部門が推奨したソフトウェアです。" },
+  { t:"関係副詞(場所)", s:"This is the facility ____ all our products are tested.", c:["where","when","which","who"], a:0,
+    r:"先行詞が「場所(facility)」で、後ろに完全な文(S+V+受動態)が続いているため【関係副詞 where】が正解です。", ja:"ここが当社の全製品がテストされる施設です。" },
+
+  // --- 比較 ---
+  { t:"比較(比較級)", s:"This year's revenue is much ____ than last year's.", c:["high","higher","highest","highly"], a:1,
+    r:"than(〜より)があるため【比較級 higher】が正解です。much は比較級を強調します(× much high)。", ja:"今年の収益は去年より大幅に高い。" },
+  { t:"比較(原級構文)", s:"The new computer runs as ____ as the previous model.", c:["fast","faster","fastest","fastly"], a:0,
+    r:"as ... as(〜と同じくらい)の間には【原級】が入ります。動詞 runs を修飾する副詞の原級 fast が正解です。", ja:"新しいコンピューターは以前のモデルと同じくらい速く動作する。" },
+  { t:"比較(最上級)", s:"Ms. Davis is the ____ qualified applicant for the position.", c:["more","most","much","many"], a:1,
+    r:"the + 【最上級】+ 名詞 の形です。most qualified(最も適任な)が正解です。", ja:"デイビスさんはその職に最も適した応募者だ。" },
+  { t:"比較(倍数表現)", s:"The new factory produces twice as ____ goods as the old one.", c:["many","much","more","most"], a:0,
+    r:"「倍数 + as many + 可算名詞の複数形 + as」の形です。goods(製品)は可算名詞の複数形なので many です。", ja:"新工場は旧工場の2倍の製品を生産している。" }
+];
+
 // ===== モード定義 =====
 const MODES = [
   { id: 1, name: "品詞識別クイズ", desc: "接尾辞ルール・形容詞の例外・語形変化(12問)" },
   { id: 2, name: "動詞問題クイズ", desc: "主述の一致・態・時制(10問)" },
   { id: 3, name: "前置詞 vs 接続詞クイズ", desc: "後ろは名詞？ それとも S+V？(10問)" },
-  { id: 4, name: "Part 5 総合予想模試", desc: "全ジャンルからランダム出題(10 / 20 / 30問)" }
+  { id: 4, name: "代名詞・関係詞・比較クイズ", desc: "格の使い分け・whose/where・比較級・最上級(10問)" },
+  { id: 5, name: "Part 5 総合予想模試", desc: "全ジャンルからランダム出題(10 / 20 / 30問)" }
 ];
 
 // ===== ユーティリティ =====
@@ -193,10 +227,12 @@ function build(mode, n) {
   const form = () => shuffle(POOL_P5).map(q => toP5(q, "語形変化"));
   const verb = () => shuffle(POOL_VERB).map(q => toP5(q, "動詞(" + q.t + ")"));
   const pc = () => shuffle(POOL_PC).map(q => toP5(q, "前置詞 vs 接続詞"));
+  const misc = () => shuffle(POOL_MISC).map(q => toP5(q, q.t));
   if (mode === 1) return pos().slice(0, 7).concat(form().slice(0, 5));
   if (mode === 2) return verb().slice(0, 10);
   if (mode === 3) return pc().slice(0, 10);
-  return shuffle(pos().concat(form(), verb(), pc())).slice(0, n);
+  if (mode === 4) return misc().slice(0, 10);
+  return shuffle(pos().concat(form(), verb(), pc(), misc())).slice(0, n);
 }
 
 // ===== 画面切り替え =====
@@ -215,7 +251,7 @@ function renderHome() {
     b.className = "mode";
     b.innerHTML = "<b>モード" + m.id + "：" + m.name + "</b><span>" + m.desc + "</span>";
     b.onclick = () => {
-      if (m.id === 4) { $("counts").classList.remove("hide"); $("counts").scrollIntoView({ behavior: "smooth", block: "nearest" }); }
+      if (m.id === 5) { $("counts").classList.remove("hide"); $("counts").scrollIntoView({ behavior: "smooth", block: "nearest" }); }
       else begin(m.id, 0);
     };
     menu.appendChild(b);
@@ -241,7 +277,7 @@ function show() {
   $("bar").style.width = (idx / QUESTIONS.length * 100) + "%";
   $("result").classList.add("hide");
   $("next").classList.add("hide");
-  $("meta").textContent = "第 " + (idx + 1) + " 問 / " + QUESTIONS.length + "　(" + q.cat + ")";
+  $("meta").textContent = "第 " + (idx + 1) + " 問 / " + QUESTIONS.length + " (" + q.cat + ")";
   updateAcc();
 
   const box = $("options");
@@ -325,6 +361,6 @@ $("retry").onclick = () => begin(curMode, curCount);
 $("toHome").onclick = () => { renderHome(); go("home"); };
 $("back").onclick = () => { if (confirm("トップに戻りますか？\n進行中の結果は失われます。")) { renderHome(); go("home"); } };
 $("cancelCount").onclick = () => $("counts").classList.add("hide");
-document.querySelectorAll("[data-n]").forEach(b => { b.onclick = () => begin(4, Number(b.dataset.n)); });
+document.querySelectorAll("[data-n]").forEach(b => { b.onclick = () => begin(5, Number(b.dataset.n)); });
 renderHome();
 go("home");
