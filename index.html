@@ -1,1 +1,62 @@
-
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TOEIC Part 5 品詞クイズ</title>
+<style>
+:root{--bg:#f3f6fb;--card:#fff;--ink:#1d2433;--sub:#5b6577;--line:#d5dce8;--main:#1f4fd8;--ok:#0f8a4f;--okbg:#e3f6ec;--ng:#c62828;--ngbg:#fde8e8}
+@media (prefers-color-scheme:dark){:root{--bg:#10141c;--card:#1a202c;--ink:#eef1f7;--sub:#9aa5b8;--line:#2e3748;--main:#6f93ff;--ok:#4cd08a;--okbg:#14372a;--ng:#ff7b7b;--ngbg:#40201f}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;line-height:1.7}
+main{max-width:640px;margin:0 auto;padding:16px}
+h1{font-size:1.2rem;margin:8px 0 12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+.bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden;margin-bottom:6px}
+.bar i{display:block;height:100%;width:0;background:var(--main);transition:width .3s}
+.meta{color:var(--sub);font-size:.9rem;margin-bottom:12px}
+.q{font-size:1.25rem;font-weight:700;margin:8px 0 16px}
+.word{font-size:2rem;letter-spacing:.02em}
+.opts{display:grid;gap:10px}
+.opts.two{grid-template-columns:1fr 1fr}
+button{font:inherit;cursor:pointer}
+.opt{min-height:56px;padding:12px;font-size:1.05rem;text-align:left;background:var(--card);color:var(--ink);border:2px solid var(--line);border-radius:12px}
+.opt:hover:enabled{border-color:var(--main)}
+.opt.ok{border-color:var(--ok);background:var(--okbg)}
+.opt.ng{border-color:var(--ng);background:var(--ngbg)}
+.opt:disabled{cursor:default}
+.res{margin-top:16px;padding:14px;border-radius:12px;font-size:.98rem}
+.res.ok{background:var(--okbg);border-left:6px solid var(--ok)}
+.res.ng{background:var(--ngbg);border-left:6px solid var(--ng)}
+.res .head{font-size:1.2rem;font-weight:700;margin-bottom:6px}
+.res p{margin:6px 0}
+.en{font-style:italic}
+.main{width:100%;min-height:56px;margin-top:16px;padding:12px;font-size:1.1rem;font-weight:700;color:#fff;background:var(--main);border:0;border-radius:12px}
+.hide{display:none}
+.score{font-size:2.6rem;font-weight:700;text-align:center;margin:8px 0}
+.list{padding-left:1.2em}
+:focus-visible{outline:3px solid var(--main);outline-offset:2px}
+</style>
+</head>
+<body>
+<main>
+  <h1>TOEIC Part 5 品詞クイズ</h1>
+  <div id="quiz" class="card">
+    <div class="bar"><i id="bar"></i></div>
+    <div class="meta" id="meta"></div>
+    <div class="q" id="question"></div>
+    <div class="opts" id="options"></div>
+    <div id="result" class="res hide"></div>
+    <button id="next" class="main hide"></button>
+  </div>
+  <div id="end" class="card hide">
+    <div class="meta">結果</div>
+    <div class="score" id="score"></div>
+    <p id="comment" style="text-align:center"></p>
+    <div id="review"></div>
+    <button id="retry" class="main">もう一度挑戦する</button>
+  </div>
+</main>
+<script src="quiz.js"></script>
+</body>
+</html>
