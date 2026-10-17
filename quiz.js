@@ -1,7 +1,7 @@
 // ===== 設定 =====
 const POS = ["名詞", "動詞", "形容詞", "副詞"];
 
-// ===== 接尾辞グループ（p: 0名詞 1動詞 2形容詞 3副詞 / l: 仲間の単語リスト）=====
+// ===== 接尾辞グループ =====
 const G = {
   tion: { p: 0, r: "【-tion / -sion】で終わる単語は名詞。動詞から名詞を作る語尾です。", l: "decision, extension, presentation, promotion, application, production, inspection, registration" },
   ment: { p: 0, r: "【-ment】で終わる単語は名詞。動詞に付いて「こと・もの」を表します。", l: "department, management, agreement, requirement, payment, development, statement, replacement" },
@@ -24,7 +24,7 @@ const G = {
   xnoun:{ p: 0, r: "語尾は -al / -tive ですが、これは名詞になる例外単語です。", l: "proposal(提案), approval(承認), removal(除去), arrival(到着), representative(担当者), alternative(代替案), initiative(主導権)" }
 };
 
-// ===== 品詞識別プール [単語, グループ, 例文, 日本語訳] =====
+// ===== 品詞識別プール =====
 const POOL_POS = [
   ["decision","tion","The board made a decision yesterday.","取締役会は昨日、決定を下した。"],
   ["registration","tion","Registration closes on Friday.","登録は金曜日に締め切られる。"],
@@ -105,7 +105,7 @@ const POOL_P5 = [
     r:"冠詞(an)と名詞(speech)の間は【形容詞】。-sive で終わる impressive が形容詞です。", ja:"CEOは会議で印象的なスピーチを行った。" }
 ];
 
-// ===== 動詞問題プール（t: 出題ポイント）=====
+// ===== 動詞問題プール =====
 const POOL_VERB = [
   { t:"主述の一致", s:"The director of the marketing team ____ a meeting every Monday.", c:["hold","holds","holding","have held"], a:1,
     r:"主語は The director(単数)。of ~ は修飾語で、動詞の数には影響しません。every Monday は現在の習慣なので、三単現の s が付いた holds が正解です。", ja:"マーケティングチームの部長は毎週月曜日に会議を開く。" },
@@ -163,15 +163,14 @@ const POOL_PC = [
     r:"後ろが S+V(she was tired)なので接続詞 Though(= although)。Despite / In spite of / Owing to は前置詞です。", ja:"彼女は疲れていたが、報告書を仕上げた。" },
   { s:"Please keep your phone off ____ the presentation.", c:["while","during","because","though"], a:1,
     r:"後ろは名詞(the presentation)なので前置詞 during。同じ「~の間」でも while は後ろに S+V が必要です。", ja:"プレゼンテーション中は携帯電話の電源を切ってください。" },
-  { s:"The staff worked overtime ____ the deadline was approaching.", c:["as","despite","due to","during"], a:0,
+  { s:"The staff worked overtime ____ the deadline was approaching.", c:["as","before","due to","during"], a:0,
     r:"後ろが S+V(the deadline was approaching)なので接続詞。as は「~なので」の意味で使えます。despite / due to / during は前置詞です。", ja:"締め切りが近づいていたため、スタッフは残業した。" },
   { s:"He studied law at night ____ he worked at the bank.", c:["during","while","despite","in spite of"], a:1,
     r:"後ろが S+V(he worked at the bank)なので接続詞 while(~する間に)。during / despite / in spite of は前置詞です。", ja:"彼は銀行で働きながら、夜に法律を勉強した。" }
 ];
 
-// ===== 代名詞・関係詞・比較プール（t: 出題ポイント）=====
+// ===== 代名詞・関係詞・比較プール =====
 const POOL_MISC = [
-  // --- 代名詞の格 ---
   { t:"代名詞(所有格)", s:"Mr. Smith submitted ____ quarterly report to the director.", c:["he","his","him","himself"], a:1,
     r:"名詞(quarterly report)の前には【所有格】が入ります。his(彼の)が正解です。", ja:"スミス氏は部長に四半期報告書を提出した。" },
   { t:"代名詞(再帰代名詞)", s:"The CEO ____ inspected the new factory in Nagoya.", c:["he","his","him","himself"], a:3,
@@ -180,8 +179,6 @@ const POOL_MISC = [
     r:"「私のもの(my sales figures)」を意味する【所有代名詞 mine】が入ります。than my は後ろに名詞が必要です。", ja:"彼女の売上数字は私のものより高かった。" },
   { t:"代名詞(指示代名詞)", s:"The products made in Japan are better than ____ imported from overseas.", c:["that","those","this","them"], a:1,
     r:"複数名詞(products)の繰り返しを避ける指示代名詞は【those】です。(単数なら that)", ja:"日本製の製品は海外から輸入されたものより優れている。" },
-
-  // --- 関係詞 ---
   { t:"関係代名詞(主格)", s:"We need to hire a technician ____ has experience with robotics.", c:["who","which","whose","whom"], a:0,
     r:"先行詞が「人(technician)」で、直後に動詞(has)が続いているため【主格の who】が正解です。", ja:"ロボット工学の経験がある技術者を雇う必要がある。" },
   { t:"関係代名詞(所有格)", s:"The company interviewed a candidate ____ background is in digital marketing.", c:["who","which","whose","whom"], a:2,
@@ -190,10 +187,8 @@ const POOL_MISC = [
     r:"先行詞が「物(software)」なので【which】(または that)が正解です。", ja:"これがIT部門が推奨したソフトウェアです。" },
   { t:"関係副詞(場所)", s:"This is the facility ____ all our products are tested.", c:["where","when","which","who"], a:0,
     r:"先行詞が「場所(facility)」で、後ろに完全な文(S+V+受動態)が続いているため【関係副詞 where】が正解です。", ja:"ここが当社の全製品がテストされる施設です。" },
-
-  // --- 比較 ---
   { t:"比較(比較級)", s:"This year's revenue is much ____ than last year's.", c:["high","higher","highest","highly"], a:1,
-    r:"than(〜より)があるため【比較級 higher】が正解です。much は比較級を強調します(× much high)。", ja:"今年の収益は去年より大幅に高い。" },
+    r:"than(〜より)があるため【比較級 higher】が正解です。much は比較級を強調します(× much high)。", ja:"今年の収益は boot 去年より大幅に高い。" },
   { t:"比較(原級構文)", s:"The new computer runs as ____ as the previous model.", c:["fast","faster","fastest","fastly"], a:0,
     r:"as ... as(〜と同じくらい)の間には【原級】が入ります。動詞 runs を修飾する副詞の原級 fast が正解です。", ja:"新しいコンピューターは以前のモデルと同じくらい速く動作する。" },
   { t:"比較(最上級)", s:"Ms. Davis is the ____ qualified applicant for the position.", c:["more","most","much","many"], a:1,
@@ -235,8 +230,12 @@ function build(mode, n) {
   return shuffle(pos().concat(form(), verb(), pc(), misc())).slice(0, n);
 }
 
-// ===== 画面切り替え =====
+// ===== グローバル状態管理 =====
 let QUESTIONS = [], idx = 0, score = 0, answered = false, log = [], curMode = 1, curCount = 10;
+let timerLimit = 0; // 0: なし, 10, 15, 20
+let timerId = null;
+let startTime = 0;
+let timeLogs = []; // 各問の所要秒数
 
 function go(name) {
   ["home", "quiz", "end"].forEach(s => $(s).classList.toggle("hide", s !== name));
@@ -262,7 +261,7 @@ function renderHome() {
 function begin(mode, n) {
   curMode = mode; curCount = n;
   QUESTIONS = build(mode, n);
-  idx = 0; score = 0; log = [];
+  idx = 0; score = 0; log = []; timeLogs = [];
   go("quiz");
   show();
 }
@@ -272,6 +271,7 @@ function updateAcc() {
 }
 
 function show() {
+  clearInterval(timerId);
   const q = QUESTIONS[idx];
   answered = false;
   $("bar").style.width = (idx / QUESTIONS.length * 100) + "%";
@@ -296,16 +296,48 @@ function show() {
     const b = document.createElement("button");
     b.className = "opt";
     b.textContent = text;
-    b.onclick = () => answer(i);
+    b.onclick = () => answer(i, false);
     box.appendChild(b);
   });
+
+  // 時間計測開始
+  startTime = Date.now();
+
+  // タイマー機能のON/OFF制御
+  const badge = $("timerBadge");
+  if (timerLimit > 0) {
+    let timeLeft = timerLimit;
+    badge.classList.remove("hide", "warn");
+    badge.textContent = "⏱️ " + timeLeft + "秒";
+
+    timerId = setInterval(() => {
+      timeLeft--;
+      if (timeLeft <= 5) badge.classList.add("warn");
+      if (timeLeft <= 0) {
+        clearInterval(timerId);
+        badge.textContent = "⏱️ 0秒";
+        answer(-1, true); // 時間切れ判定（-1）
+      } else {
+        badge.textContent = "⏱️ " + timeLeft + "秒";
+      }
+    }, 1000);
+  } else {
+    badge.classList.add("hide");
+  }
 }
 
-function answer(i) {
+function answer(i, isTimeUp) {
   if (answered) return;
   answered = true;
+  clearInterval(timerId);
+
+  // 回答時間計測（秒）
+  const elapsed = Math.min((Date.now() - startTime) / 1000, timerLimit || 999);
+  const roundedTime = Math.round(elapsed * 10) / 10;
+  timeLogs.push(roundedTime);
+
   const q = QUESTIONS[idx];
-  const ok = i === q.answer;
+  const ok = !isTimeUp && i === q.answer;
   if (ok) score++;
   log.push(ok);
   updateAcc();
@@ -318,8 +350,11 @@ function answer(i) {
   }
 
   const correct = q.type === "pos" ? POS[q.answer] : "(" + "ABCD"[q.answer] + ") " + q.choices[q.answer];
-  let html = '<div class="head">' + (ok ? "⭕ 正解！" : "❌ 不正解") + "</div>";
+  
+  let headText = ok ? "⭕ 正解！" : (isTimeUp ? "❌ 時間切れ！（解答なし）" : "❌ 不正解");
+  let html = '<div class="head">' + headText + ' <span style="font-size:0.9rem; font-weight:normal; color:var(--sub);">(' + roundedTime + '秒)</span></div>';
   html += "<p><b>正解:</b> " + correct + "</p>";
+
   if (q.type === "pos") {
     html += "<p><b>ルール:</b> " + q.rule + "</p>";
     html += "<p><b>同じ特徴の単語:</b> " + q.mates + "</p>";
@@ -328,6 +363,7 @@ function answer(i) {
     html += "<p><b>解説:</b> " + q.reason + "</p>";
     html += '<p><b>完成文:</b><br><span class="en">' + q.sentence.replace("____", q.choices[q.answer]) + "</span><br>" + q.ja + "</p>";
   }
+
   const r = $("result");
   r.className = "res " + (ok ? "ok" : "ng");
   r.innerHTML = html;
@@ -344,23 +380,48 @@ function next() {
 }
 
 function finish() {
+  clearInterval(timerId);
   go("end");
   const pct = Math.round(score / QUESTIONS.length * 100);
+  
+  // 平均タイム計算
+  const totalTime = timeLogs.reduce((a, b) => a + b, 0);
+  const avgTime = (totalTime / timeLogs.length).toFixed(1);
+
   $("score").textContent = score + " / " + QUESTIONS.length;
   $("pct").textContent = "正解率 " + pct + "%";
-  $("comment").textContent = pct === 100 ? "全問正解！完璧です！" : pct >= 70 ? "よくできました！あと一歩です。" : "解説を見直して、もう一度挑戦しましょう。";
+  $("avgTime").textContent = "⏱️ 平均回答時間: " + avgTime + " 秒 / 問 (合計 " + Math.round(totalTime) + " 秒)";
+
+  $("comment").textContent = pct === 100 ? "全問正解！素晴らしい解答スピードです！" : pct >= 70 ? "合格ラインです！復習してさらにスピードを上げましょう。" : "解説を見直して、もう一度挑戦しましょう。";
+  
   $("review").innerHTML = '<ul class="list">' + log.map((ok, i) => {
     const q = QUESTIONS[i];
-    return "<li>" + (ok ? "⭕" : "❌") + " 第" + (i + 1) + "問: " + (q.type === "pos" ? q.word : q.sentence) + "</li>";
+    const t = timeLogs[i] !== undefined ? " (" + timeLogs[i] + "秒)" : "";
+    return "<li>" + (ok ? "⭕" : "❌") + " 第" + (i + 1) + "問" + t + ": " + (q.type === "pos" ? q.word : q.sentence) + "</li>";
   }).join("") + "</ul>";
 }
 
-// ===== イベント =====
+// ===== イベント登録 =====
+document.querySelectorAll(".t-btn").forEach(b => {
+  b.onclick = () => {
+    document.querySelectorAll(".t-btn").forEach(x => x.classList.remove("active"));
+    b.classList.add("active");
+    timerLimit = Number(b.dataset.t);
+  };
+});
+
 $("next").onclick = next;
 $("retry").onclick = () => begin(curMode, curCount);
 $("toHome").onclick = () => { renderHome(); go("home"); };
-$("back").onclick = () => { if (confirm("トップに戻りますか？\n進行中の結果は失われます。")) { renderHome(); go("home"); } };
+$("back").onclick = () => {
+  if (confirm("トップに戻りますか？\n進行中の結果は失われます。")) {
+    clearInterval(timerId);
+    renderHome();
+    go("home");
+  }
+};
 $("cancelCount").onclick = () => $("counts").classList.add("hide");
 document.querySelectorAll("[data-n]").forEach(b => { b.onclick = () => begin(5, Number(b.dataset.n)); });
+
 renderHome();
 go("home");
