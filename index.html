@@ -3,69 +3,364 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TOEIC Part 5 品詞クイズ</title>
+<title>TOEIC Part 5 トレーニングマスター</title>
 <style>
-:root{--bg:#f3f6fb;--card:#fff;--ink:#1d2433;--sub:#5b6577;--line:#d5dce8;--main:#1f4fd8;--ok:#0f8a4f;--okbg:#e3f6ec;--ng:#c62828;--ngbg:#fde8e8}
-@media (prefers-color-scheme:dark){:root{--bg:#10141c;--card:#1a202c;--ink:#eef1f7;--sub:#9aa5b8;--line:#2e3748;--main:#6f93ff;--ok:#4cd08a;--okbg:#14372a;--ng:#ff7b7b;--ngbg:#40201f}}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;line-height:1.7}
-main{max-width:640px;margin:0 auto;padding:16px}
-h1{font-size:1.2rem;margin:8px 0 12px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
-.bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden;margin-bottom:6px}
-.bar i{display:block;height:100%;width:0;background:var(--main);transition:width .3s}
-.meta{color:var(--sub);font-size:.9rem;margin-bottom:12px}
-.q{font-size:1.25rem;font-weight:700;margin:8px 0 16px}
-.word{font-size:2rem;letter-spacing:.02em}
-.opts{display:grid;gap:10px}
-.opts.two{grid-template-columns:1fr 1fr}
-button{font:inherit;cursor:pointer}
-.opt{min-height:56px;padding:12px;font-size:1.05rem;text-align:left;background:var(--card);color:var(--ink);border:2px solid var(--line);border-radius:12px}
-.opt:hover:enabled{border-color:var(--main)}
-.opt.ok{border-color:var(--ok);background:var(--okbg)}
-.opt.ng{border-color:var(--ng);background:var(--ngbg)}
-.opt:disabled{cursor:default}
-.res{margin-top:16px;padding:14px;border-radius:12px;font-size:.98rem}
-.res.ok{background:var(--okbg);border-left:6px solid var(--ok)}
-.res.ng{background:var(--ngbg);border-left:6px solid var(--ng)}
-.res .head{font-size:1.2rem;font-weight:700;margin-bottom:6px}
-.res p{margin:6px 0}
-.en{font-style:italic}
-.main{width:100%;min-height:56px;margin-top:16px;padding:12px;font-size:1.1rem;font-weight:700;color:#fff;background:var(--main);border:0;border-radius:12px}
-.hide{display:none}
-.score{font-size:2.6rem;font-weight:700;text-align:center;margin:8px 0}
-.list{padding-left:1.2em}
-:focus-visible{outline:3px solid var(--main);outline-offset:2px}
-.menu{display:grid;gap:12px;margin-top:12px}
-.mode{width:100%;min-height:72px;padding:14px 16px;text-align:left;font-size:1.1rem;color:var(--ink);background:var(--card);border:2px solid var(--line);border-radius:14px}
-.mode:hover{border-color:var(--main)}
-.mode b{display:block}
-.mode span{display:block;font-size:.88rem;font-weight:400;color:var(--sub)}
-.top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}
-.ghost{min-height:44px;padding:8px 14px;font-size:.95rem;color:var(--main);background:transparent;border:2px solid var(--line);border-radius:10px}
-#acc{font-size:.9rem;color:var(--sub)}
-.three{grid-template-columns:repeat(3,1fr)}
-.pct{text-align:center;font-size:1.2rem;color:var(--sub);margin:0}
+:root {
+  --bg: #f4f7fc;
+  --card: #ffffff;
+  --ink: #1a2233;
+  --sub: #526075;
+  --line: #cbd5e1;
+  --main: #1d4ed8;
+  --main-hover: #1e40af;
+  --ok: #059669;
+  --okbg: #ecfdf5;
+  --ng: #dc2626;
+  --ngbg: #fef2f2;
+  --shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f172a;
+    --card: #1e293b;
+    --ink: #f8fafc;
+    --sub: #94a3b8;
+    --line: #334155;
+    --main: #3b82f6;
+    --main-hover: #60a5fa;
+    --ok: #10b981;
+    --okbg: #064e3b;
+    --ng: #ef4444;
+    --ngbg: #451a1a;
+    --shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "Hiragino Sans", "Yu Gothic", sans-serif;
+  line-height: 1.6;
+  -webkit-tap-highlight-color: transparent;
+}
+
+main {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 16px 12px 32px;
+}
+
+h1 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  text-align: center;
+  margin: 12px 0 18px;
+  color: var(--main);
+  letter-spacing: 0.03em;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 24px 20px;
+  box-shadow: var(--shadow);
+}
+
+/* プログレスバー */
+.bar {
+  height: 10px;
+  background: var(--line);
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+.bar i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--main);
+  border-radius: 5px;
+  transition: width 0.3s ease;
+}
+
+.meta {
+  color: var(--sub);
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+.q {
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: 1.5;
+  margin: 10px 0 20px;
+}
+
+.word {
+  display: block;
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--main);
+  letter-spacing: 0.04em;
+  margin-top: 8px;
+  word-break: break-all;
+}
+
+/* 選択肢ボタン設定（大きく・押しやすく） */
+.opts {
+  display: grid;
+  gap: 12px;
+}
+.opts.two {
+  grid-template-columns: 1fr 1fr;
+}
+.three {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.opt {
+  min-height: 60px;
+  padding: 14px 18px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: left;
+  background: var(--card);
+  color: var(--ink);
+  border: 2px solid var(--line);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+}
+
+.opt:hover:enabled {
+  border-color: var(--main);
+  background: rgba(29, 78, 216, 0.04);
+}
+
+.opt:active:enabled {
+  transform: scale(0.98);
+}
+
+.opt.ok {
+  border-color: var(--ok) !important;
+  background: var(--okbg) !important;
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.opt.ng {
+  border-color: var(--ng) !important;
+  background: var(--ngbg) !important;
+  color: var(--ink);
+}
+
+.opt:disabled {
+  cursor: default;
+}
+
+/* メニュー・モード選択ボタン */
+.menu {
+  display: grid;
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.mode {
+  width: 100%;
+  min-height: 84px;
+  padding: 16px 20px;
+  text-align: left;
+  font-size: 1.15rem;
+  color: var(--ink);
+  background: var(--card);
+  border: 2px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+}
+
+.mode:hover {
+  border-color: var(--main);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+}
+
+.mode:active {
+  transform: scale(0.99);
+}
+
+.mode b {
+  display: block;
+  font-size: 1.2rem;
+  margin-bottom: 4px;
+  color: var(--main);
+}
+
+.mode span {
+  display: block;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--sub);
+}
+
+/* 解説ボックス */
+.res {
+  margin-top: 20px;
+  padding: 18px;
+  border-radius: 14px;
+  font-size: 1.02rem;
+  line-height: 1.7;
+}
+
+.res.ok {
+  background: var(--okbg);
+  border: 2px solid var(--ok);
+}
+
+.res.ng {
+  background: var(--ngbg);
+  border: 2px solid var(--ng);
+}
+
+.res .head {
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.res p {
+  margin: 8px 0;
+}
+
+.en {
+  display: inline-block;
+  font-style: italic;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+/* メインアクションボタン */
+.main {
+  width: 100%;
+  min-height: 60px;
+  margin-top: 20px;
+  padding: 14px;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #ffffff;
+  background: var(--main);
+  border: 0;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(29, 78, 216, 0.3);
+}
+
+.main:hover {
+  background: var(--main-hover);
+}
+
+.main:active {
+  transform: scale(0.98);
+}
+
+/* ユーティリティ */
+.hide { display: none !important; }
+
+.score {
+  font-size: 3.2rem;
+  font-weight: 900;
+  text-align: center;
+  color: var(--main);
+  margin: 12px 0 4px;
+}
+
+.pct {
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--sub);
+  margin: 0 0 16px;
+}
+
+.list {
+  padding-left: 1.2em;
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.ghost {
+  min-height: 46px;
+  padding: 8px 16px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--sub);
+  background: transparent;
+  border: 2px solid var(--line);
+  border-radius: 12px;
+}
+
+.ghost:hover {
+  border-color: var(--sub);
+  color: var(--ink);
+}
+
+#acc {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--main);
+}
+
+:focus-visible {
+  outline: 3px solid var(--main);
+  outline-offset: 3px;
+}
 </style>
 </head>
 <body>
 <main>
   <h1>TOEIC Part 5 トレーニング</h1>
+
+  <!-- ホーム画面 -->
   <div id="home" class="card">
-    <p style="margin:0">学習モードを選んでください</p>
+    <p style="margin:0; font-size: 1.1rem; font-weight: 700; text-align: center;">学習モードを選択してください</p>
     <div class="menu" id="menu"></div>
+
+    <!-- 模試問題数選択エリア -->
     <div id="counts" class="hide">
-      <p class="q" style="margin-top:20px">総合模試の問題数は？</p>
+      <p class="q" style="margin-top: 24px; text-align: center;">総合模試の問題数は？</p>
       <div class="opts three">
-        <button class="opt" data-n="10">10問</button>
-        <button class="opt" data-n="20">20問</button>
-        <button class="opt" data-n="30">30問</button>
+        <button class="opt" data-n="10" style="justify-content: center;">10問</button>
+        <button class="opt" data-n="20" style="justify-content: center;">20問</button>
+        <button class="opt" data-n="30" style="justify-content: center;">30問</button>
       </div>
-      <button id="cancelCount" class="ghost" style="margin-top:12px">やめる</button>
+      <button id="cancelCount" class="ghost" style="width: 100%; margin-top: 14px;">キャンセル</button>
     </div>
   </div>
+
+  <!-- クイズ画面 -->
   <div id="quiz" class="card hide">
-    <div class="top"><button id="back" class="ghost">← トップへ</button><span id="acc"></span></div>
+    <div class="top">
+      <button id="back" class="ghost">← トップへ</button>
+      <span id="acc"></span>
+    </div>
     <div class="bar"><i id="bar"></i></div>
     <div class="meta" id="meta"></div>
     <div class="q" id="question"></div>
@@ -73,16 +368,19 @@ button{font:inherit;cursor:pointer}
     <div id="result" class="res hide"></div>
     <button id="next" class="main hide"></button>
   </div>
+
+  <!-- 結果画面 -->
   <div id="end" class="card hide">
-    <div class="meta">結果</div>
+    <div class="meta" style="text-align: center; font-size: 1.2rem;">― 最終結果 ―</div>
     <div class="score" id="score"></div>
     <p class="pct" id="pct"></p>
-    <p id="comment" style="text-align:center"></p>
+    <p id="comment" style="text-align:center; font-size: 1.15rem; font-weight: 700; margin-bottom: 20px;"></p>
     <div id="review"></div>
     <button id="retry" class="main">同じモードでもう一度</button>
-    <button id="toHome" class="main" style="background:transparent;color:var(--main);border:2px solid var(--main)">トップに戻る</button>
+    <button id="toHome" class="main" style="background:transparent; color:var(--main); border:2px solid var(--main); box-shadow: none;">トップに戻る</button>
   </div>
 </main>
+
 <script src="quiz.js"></script>
 </body>
 </html>
