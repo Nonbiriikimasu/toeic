@@ -17,6 +17,7 @@
   --okbg: #ecfdf5;
   --ng: #dc2626;
   --ngbg: #fef2f2;
+  --timer: #d97706;
   --shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
 }
 
@@ -33,6 +34,7 @@
     --okbg: #064e3b;
     --ng: #ef4444;
     --ngbg: #451a1a;
+    --timer: #f59e0b;
     --shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
   }
 }
@@ -69,6 +71,68 @@ h1 {
   border-radius: 20px;
   padding: 24px 20px;
   box-shadow: var(--shadow);
+}
+
+/* タイマー設定ボックス */
+.timer-setting {
+  margin-bottom: 20px;
+  padding: 16px;
+  background: rgba(29, 78, 216, 0.04);
+  border: 2px solid var(--line);
+  border-radius: 16px;
+}
+
+.timer-setting p {
+  margin: 0 0 10px;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--ink);
+}
+
+.timer-opts {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.t-btn {
+  padding: 10px 4px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  background: var(--card);
+  color: var(--ink);
+  border: 2px solid var(--line);
+  border-radius: 10px;
+  text-align: center;
+}
+
+.t-btn.active {
+  border-color: var(--main);
+  background: var(--main);
+  color: #ffffff;
+}
+
+/* タイマーバッジ */
+.timer-badge {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--timer);
+  background: rgba(217, 119, 6, 0.1);
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--timer);
+}
+
+.timer-badge.warn {
+  color: var(--ng);
+  border-color: var(--ng);
+  background: var(--ngbg);
+  animation: pulse 0.5s infinite alternate;
+}
+
+@keyframes pulse {
+  from { opacity: 1; }
+  to { opacity: 0.5; }
 }
 
 /* プログレスバー */
@@ -112,17 +176,13 @@ h1 {
   word-break: break-all;
 }
 
-/* 選択肢ボタン設定（大きく・押しやすく） */
+/* 選択肢ボタン */
 .opts {
   display: grid;
   gap: 12px;
 }
-.opts.two {
-  grid-template-columns: 1fr 1fr;
-}
-.three {
-  grid-template-columns: repeat(3, 1fr);
-}
+.opts.two { grid-template-columns: 1fr 1fr; }
+.three { grid-template-columns: repeat(3, 1fr); }
 
 button {
   font: inherit;
@@ -149,9 +209,7 @@ button {
   background: rgba(29, 78, 216, 0.04);
 }
 
-.opt:active:enabled {
-  transform: scale(0.98);
-}
+.opt:active:enabled { transform: scale(0.98); }
 
 .opt.ok {
   border-color: var(--ok) !important;
@@ -166,9 +224,7 @@ button {
   color: var(--ink);
 }
 
-.opt:disabled {
-  cursor: default;
-}
+.opt:disabled { cursor: default; }
 
 /* メニュー・モード選択ボタン */
 .menu {
@@ -196,9 +252,7 @@ button {
   box-shadow: 0 6px 16px rgba(0,0,0,0.08);
 }
 
-.mode:active {
-  transform: scale(0.99);
-}
+.mode:active { transform: scale(0.99); }
 
 .mode b {
   display: block;
@@ -239,10 +293,7 @@ button {
   margin-bottom: 8px;
 }
 
-.res p {
-  margin: 8px 0;
-}
-
+.res p { margin: 8px 0; }
 .en {
   display: inline-block;
   font-style: italic;
@@ -250,7 +301,7 @@ button {
   margin-top: 2px;
 }
 
-/* メインアクションボタン */
+/* メインボタン */
 .main {
   width: 100%;
   min-height: 60px;
@@ -265,13 +316,8 @@ button {
   box-shadow: 0 4px 12px rgba(29, 78, 216, 0.3);
 }
 
-.main:hover {
-  background: var(--main-hover);
-}
-
-.main:active {
-  transform: scale(0.98);
-}
+.main:hover { background: var(--main-hover); }
+.main:active { transform: scale(0.98); }
 
 /* ユーティリティ */
 .hide { display: none !important; }
@@ -289,6 +335,14 @@ button {
   font-size: 1.3rem;
   font-weight: 700;
   color: var(--sub);
+  margin: 0 0 6px;
+}
+
+.avg-time {
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--timer);
   margin: 0 0 16px;
 }
 
@@ -340,6 +394,18 @@ button {
 
   <!-- ホーム画面 -->
   <div id="home" class="card">
+    
+    <!-- タイマー設定エリア -->
+    <div class="timer-setting">
+      <p>⏱️ 1問の制限時間設定</p>
+      <div class="timer-opts">
+        <button class="t-btn active" data-t="0">なし</button>
+        <button class="t-btn" data-t="10">10秒</button>
+        <button class="t-btn" data-t="15">15秒</button>
+        <button class="t-btn" data-t="20">20秒</button>
+      </div>
+    </div>
+
     <p style="margin:0; font-size: 1.1rem; font-weight: 700; text-align: center;">学習モードを選択してください</p>
     <div class="menu" id="menu"></div>
 
@@ -359,6 +425,7 @@ button {
   <div id="quiz" class="card hide">
     <div class="top">
       <button id="back" class="ghost">← トップへ</button>
+      <span id="timerBadge" class="timer-badge hide">⏱️ 15秒</span>
       <span id="acc"></span>
     </div>
     <div class="bar"><i id="bar"></i></div>
@@ -374,6 +441,7 @@ button {
     <div class="meta" style="text-align: center; font-size: 1.2rem;">― 最終結果 ―</div>
     <div class="score" id="score"></div>
     <p class="pct" id="pct"></p>
+    <p class="avg-time" id="avgTime"></p>
     <p id="comment" style="text-align:center; font-size: 1.15rem; font-weight: 700; margin-bottom: 20px;"></p>
     <div id="review"></div>
     <button id="retry" class="main">同じモードでもう一度</button>
