@@ -21,7 +21,7 @@ const G = {
   al:   { p: 2, r: "【-cal / -al / -ant / -ent】で終わる単語は形容詞が多いです。", l: "local, economical, critical, practical, professional, additional, original, efficient, convenient, significant, relevant" },
   ly:   { p: 3, r: "【形容詞 + ly】は副詞。動詞・形容詞・他の副詞・文全体を修飾します。", l: "usually, recently, currently, carefully, promptly, highly, significantly, closely, thoroughly" },
   xly:  { p: 2, r: "【名詞 + ly】は形容詞！ -ly でも副詞ではない、TOEIC頻出の引っかけです。", l: "costly(高価な), friendly(親しみやすい), timely(タイムリーな), orderly(整然とした), monthly(毎月の ※副詞用法もあり)" },
-  xnoun:{ p: 0, r: "語尾は -al / -tive ですが、これは名詞になる例外単語です。", l: "proposal(提案), approval(承認), removal(除去), arrival(到着), representative(担当者), alternative(代替案), initiative(主導権)" }
+  xnoun:{ p: 0, r: "語尾は -al ですが、これは名詞になる例外単語です(removal=除去 など)。", l: "proposal(提案), approval(承認), removal(除去), arrival(到着), refusal(拒否), denial(否定)" }
 };
 
 // ===== 品詞識別プール =====
@@ -55,7 +55,7 @@ const POOL_POS = [
   ["previous","ous","Please refer to the previous report.","前回の報告書を参照してください。"],
   ["successful","ful","She gave a successful presentation.","彼女は成功したプレゼンテーションを行った。"],
   ["helpful","ful","The staff were very helpful.","スタッフはとても親切だった。"],
-  ["official","cial","The official announcement is tomorrow.","公式発表は明日だ。"],
+  ["financial","cial","The financial report is due on Monday.","財務報告書の提出期限は月曜日だ。"],
   ["confidential","cial","Keep this document confidential.","この書類は機密にしてください。"],
   ["substantial","cial","The firm made a substantial profit.","その会社はかなりの利益を上げた。"],
   ["impressive","sive","His résumé is impressive.","彼の履歴書は印象的だ。"],
@@ -74,9 +74,7 @@ const POOL_POS = [
   ["timely","xly","Thank you for your timely response.","迅速なご返信をありがとうございます。"],
   ["proposal","xnoun","The manager accepted our proposal.","部長は私たちの提案を受け入れた。"],
   ["approval","xnoun","The plan needs approval from the director.","その計画には部長の承認が必要だ。"],
-  ["arrival","xnoun","We await the arrival of the shipment.","私たちは荷物の到着を待っている。"],
-  ["representative","xnoun","A sales representative will call you.","営業担当者がお電話します。"],
-  ["alternative","xnoun","We need to find an alternative.","私たちは代替案を見つける必要がある。"]
+  ["arrival","xnoun","We await the arrival of the shipment.","私たちは荷物の到着を待っている。"]
 ];
 
 // ===== Part 5 プール =====
@@ -163,7 +161,7 @@ const POOL_PC = [
     r:"後ろが S+V(she was tired)なので接続詞 Though(= although)。Despite / In spite of / Owing to は前置詞です。", ja:"彼女は疲れていたが、報告書を仕上げた。" },
   { s:"Please keep your phone off ____ the presentation.", c:["while","during","because","though"], a:1,
     r:"後ろは名詞(the presentation)なので前置詞 during。同じ「~の間」でも while は後ろに S+V が必要です。", ja:"プレゼンテーション中は携帯電話の電源を切ってください。" },
-  { s:"The staff worked overtime ____ the deadline was approaching.", c:["as","before","due to","during"], a:0,
+  { s:"The staff worked overtime ____ the deadline was approaching.", c:["as","despite","due to","during"], a:0,
     r:"後ろが S+V(the deadline was approaching)なので接続詞。as は「~なので」の意味で使えます。despite / due to / during は前置詞です。", ja:"締め切りが近づいていたため、スタッフは残業した。" },
   { s:"He studied law at night ____ he worked at the bank.", c:["during","while","despite","in spite of"], a:1,
     r:"後ろが S+V(he worked at the bank)なので接続詞 while(~する間に)。during / despite / in spite of は前置詞です。", ja:"彼は銀行で働きながら、夜に法律を勉強した。" }
@@ -188,7 +186,7 @@ const POOL_MISC = [
   { t:"関係副詞(場所)", s:"This is the facility ____ all our products are tested.", c:["where","when","which","who"], a:0,
     r:"先行詞が「場所(facility)」で、後ろに完全な文(S+V+受動態)が続いているため【関係副詞 where】が正解です。", ja:"ここが当社の全製品がテストされる施設です。" },
   { t:"比較(比較級)", s:"This year's revenue is much ____ than last year's.", c:["high","higher","highest","highly"], a:1,
-    r:"than(〜より)があるため【比較級 higher】が正解です。much は比較級を強調します(× much high)。", ja:"今年の収益は boot 去年より大幅に高い。" },
+    r:"than(〜より)があるため【比較級 higher】が正解です。much は比較級を強調します(× much high)。", ja:"今年の収益は去年より大幅に高い。" },
   { t:"比較(原級構文)", s:"The new computer runs as ____ as the previous model.", c:["fast","faster","fastest","fastly"], a:0,
     r:"as ... as(〜と同じくらい)の間には【原級】が入ります。動詞 runs を修飾する副詞の原級 fast が正解です。", ja:"新しいコンピューターは以前のモデルと同じくらい速く動作する。" },
   { t:"比較(最上級)", s:"Ms. Davis is the ____ qualified applicant for the position.", c:["more","most","much","many"], a:1,
@@ -300,27 +298,20 @@ function show() {
     box.appendChild(b);
   });
 
-  // 時間計測開始
+  // 時間計測開始（時刻ベースなので、ずれ・タブ切替に強い）
   startTime = Date.now();
-
-  // タイマー機能のON/OFF制御
   const badge = $("timerBadge");
   if (timerLimit > 0) {
-    let timeLeft = timerLimit;
+    const deadline = startTime + timerLimit * 1000;
     badge.classList.remove("hide", "warn");
-    badge.textContent = "⏱️ " + timeLeft + "秒";
-
-    timerId = setInterval(() => {
-      timeLeft--;
-      if (timeLeft <= 5) badge.classList.add("warn");
-      if (timeLeft <= 0) {
-        clearInterval(timerId);
-        badge.textContent = "⏱️ 0秒";
-        answer(-1, true); // 時間切れ判定（-1）
-      } else {
-        badge.textContent = "⏱️ " + timeLeft + "秒";
-      }
-    }, 1000);
+    const tick = () => {
+      const left = Math.max(0, Math.ceil((deadline - Date.now()) / 1000));
+      badge.textContent = "⏱️ " + left + "秒";
+      if (left <= 5) badge.classList.add("warn");
+      if (left <= 0) { clearInterval(timerId); answer(-1, true); }
+    };
+    tick();
+    timerId = setInterval(tick, 250);
   } else {
     badge.classList.add("hide");
   }
@@ -402,13 +393,14 @@ function finish() {
 }
 
 // ===== イベント登録 =====
-document.querySelectorAll(".t-btn").forEach(b => {
-  b.onclick = () => {
-    document.querySelectorAll(".t-btn").forEach(x => x.classList.remove("active"));
-    b.classList.add("active");
-    timerLimit = Number(b.dataset.t);
-  };
+document.addEventListener("click", (e) => {
+  const b = e.target.closest(".t-btn");
+  if (!b) return;
+  document.querySelectorAll(".t-btn").forEach(x => x.classList.remove("active"));
+  b.classList.add("active");
+  timerLimit = Number(b.dataset.t);
 });
+timerLimit = Number((document.querySelector(".t-btn.active") || { dataset: { t: 0 } }).dataset.t);
 
 $("next").onclick = next;
 $("retry").onclick = () => begin(curMode, curCount);
