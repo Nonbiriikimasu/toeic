@@ -74,7 +74,17 @@ const POOL_POS = [
   ["timely","xly","Thank you for your timely response.","迅速なご返信をありがとうございます。"],
   ["proposal","xnoun","The manager accepted our proposal.","部長は私たちの提案を受け入れた。"],
   ["approval","xnoun","The plan needs approval from the director.","その計画には部長の承認が必要だ。"],
-  ["arrival","xnoun","We await the arrival of the shipment.","私たちは荷物の到着を待っている。"]
+  ["arrival","xnoun","We await the arrival of the shipment.","私たちは荷物の到着を待っている。"],
+  ["installation","tion","The installation will take two hours.","設置には2時間かかる。"],
+  ["assistance","ance","Thank you for your assistance.","ご協力ありがとうございます。"],
+  ["capacity","ty","The hall has a capacity of 300.","そのホールの収容人数は300人だ。"],
+  ["generate","ate","The campaign will generate new interest.","そのキャンペーンは新たな関心を生むだろう。"],
+  ["summarize","ize","Please summarize the main points.","要点をまとめてください。"],
+  ["lengthen","en","They plan to lengthen the runway.","彼らは滑走路を延長する計画だ。"],
+  ["continuous","ous","We offer continuous support.","私たちは継続的なサポートを提供している。"],
+  ["reliable","ble","He is a reliable partner.","彼は信頼できるパートナーだ。"],
+  ["currently","ly","We are currently hiring.","当社は現在採用中です。"],
+  ["orderly","xly","Please leave in an orderly manner.","整然と退出してください。"]
 ];
 
 // ===== Part 5 プール =====
@@ -100,7 +110,23 @@ const POOL_P5 = [
   { s:"We will ____ you of any changes in the schedule.", c:["notification","notify","notifying","notable"], a:1,
     r:"助動詞(will)の後ろには【動詞の原形】。-fy で終わる notify が動詞です。", ja:"スケジュールの変更があればお知らせします。" },
   { s:"The CEO gave an ____ speech at the conference.", c:["impress","impression","impressive","impressively"], a:2,
-    r:"冠詞(an)と名詞(speech)の間は【形容詞】。-sive で終わる impressive が形容詞です。", ja:"CEOは会議で印象的なスピーチを行った。" }
+    r:"冠詞(an)と名詞(speech)の間は【形容詞】。-sive で終わる impressive が形容詞です。", ja:"CEOは会議で印象的なスピーチを行った。" },
+  { s:"The ____ of the project depends on our budget.", c:["complete","completion","completely","completed"], a:1,
+    r:"冠詞(The)の後ろで主語になるのは【名詞】。-tion で終わる completion(完成)が名詞です。", ja:"プロジェクトの完成は私たちの予算次第だ。" },
+  { s:"Employees must follow the safety rules ____.", c:["strict","strictly","strictness","stricter"], a:1,
+    r:"文が完成している(動詞 follow + 目的語)ので、後ろには動詞を修飾する【副詞】が入ります。strict + ly = strictly(厳密に)。", ja:"従業員は安全規則を厳守しなければならない。" },
+  { s:"The hotel offers a ____ breakfast to all guests.", c:["complimentary","compliment","complimentarily","complimenting"], a:0,
+    r:"冠詞(a)と名詞(breakfast)の間は【形容詞】。complimentary(無料の)は -ary で終わる形容詞です。", ja:"そのホテルは全宿泊客に無料の朝食を提供している。" },
+  { s:"Ms. Chen was promoted because of her ____ to the company.", c:["dedicate","dedicated","dedication","dedicatedly"], a:2,
+    r:"所有格(her)の後ろは【名詞】。-tion で終わる dedication(献身)が正解です。", ja:"チェンさんは会社への献身ぶりが認められて昇進した。" },
+  { s:"The ____ for this position must have five years of experience.", c:["apply","applicant","applicable","applied"], a:1,
+    r:"冠詞(The)の後ろの主語は【名詞】。-ant / -ent は人を表す名詞にもなります(applicant=応募者)。applicable は形容詞です。", ja:"この職の応募者は5年の経験が必要だ。" },
+  { s:"We were ____ with the quality of the service.", c:["satisfy","satisfied","satisfaction","satisfactorily"], a:1,
+    r:"be動詞の後ろの補語で、「満足している」という状態を表す形容詞(過去分詞形)satisfied が入ります。", ja:"私たちはサービスの質に満足した。" },
+  { s:"Our engineers work ____ to finish the project on time.", c:["diligent","diligently","diligence","diligences"], a:1,
+    r:"動詞(work)を修飾するのは【副詞】。diligent + ly = diligently(勤勉に)です。", ja:"エンジニアたちは期限内にプロジェクトを終えるため、懸命に働いている。" },
+  { s:"The training session was extremely ____.", c:["inform","information","informative","informatively"], a:2,
+    r:"be動詞の補語には【形容詞】。副詞 extremely が修飾する先も形容詞です。-tive で終わる informative(有益な)が正解です。", ja:"その研修は非常に有益だった。" }
 ];
 
 // ===== 動詞問題プール =====
@@ -132,10 +158,46 @@ const POOL_VERB = [
   { t:"時制", s:"Please call me as soon as the shipment ____.", c:["will arrive","arrives","arrived","arriving"], a:1,
     r:"as soon as / when / if など、時・条件を表す副詞節の中では、未来のことでも現在形を使います。will arrive は不可です。", ja:"荷物が届いたらすぐに電話してください。" },
   { t:"時制", s:"By the time the manager arrived, the meeting ____.", c:["already started","had already started","will start","starts"], a:1,
-    r:"by the time + 過去形(到着した時点)より前に始まっていたので、過去完了 had already started が正解です。", ja:"部長が到着した時には、会議はすでに始まっていた。" }
+    r:"by the time + 過去形(到着した時点)より前に始まっていたので、過去完了 had already started が正解です。", ja:"部長が到着した時には、会議はすでに始まっていた。" },
+  { t:"主述の一致", s:"The documents on the desk ____ to be signed by the director.", c:["needs","need","needing","has needed"], a:1,
+    r:"主語の中心は複数形の documents。on the desk は修飾語です。複数主語なので動詞は need(s は付かない)です。", ja:"机の上の書類は部長の署名が必要だ。" },
+  { t:"主述の一致", s:"Every employee ____ a security badge.", c:["wear","wears","are wearing","have worn"], a:1,
+    r:"Every + 単数名詞は単数扱い。現在の習慣を表す文なので、三単現の s が付いた wears が正解です。", ja:"従業員は全員、セキュリティバッジを身につけている。" },
+  { t:"態(能動・受動)", s:"Our flight ____ due to the bad weather.", c:["cancelled","was cancelled","cancel","cancelling"], a:1,
+    r:"主語 flight は「キャンセルされる」側で、後ろに目的語がないので受動態(was + 過去分詞)です。due to ~(~のため)が原因を表しています。", ja:"悪天候のため、私たちの便は欠航になった。" },
+  { t:"態(能動・受動)", s:"Ms. Kato ____ to vice president last week.", c:["promoted","was promoted","has promoted","promoting"], a:1,
+    r:"「昇進させられた」ので受動態。後ろは目的語ではなく to ~ なので、be + promoted です。last week は過去のキーワードです。", ja:"加藤さんは先週、副社長に昇進した。" },
+  { t:"時制", s:"Sales ____ steadily over the past three years.", c:["grow","grew","have grown","will grow"], a:2,
+    r:"over the past three years(過去3年間)は現在完了のキーワード。have grown(増え続けてきた)が正解です。", ja:"売上は過去3年間、着実に伸びてきた。" },
+  { t:"時制", s:"I will send you the file once I ____ the report.", c:["will finish","finish","finishing","finished"], a:1,
+    r:"once(~したら)は時・条件を表す副詞節をつくります。未来のことでも節の中は現在形(finish)を使います。", ja:"報告書を終えたら、すぐにファイルをお送りします。" }
 ];
 
 // ===== 前置詞 vs 接続詞プール =====
+// ===== 語彙問題プール（意味で選ぶ Part 5 形式）=====
+const POOL_VOCAB = [
+  { t:"語彙", s:"The company decided to ____ its operations to Southeast Asia.", c:["expand","expend","expire","explain"], a:0,
+    r:"expand(拡大する) / expend(費やす) / expire(期限が切れる) / explain(説明する)。「事業を東南アジアに広げる」なので expand です。", ja:"その会社は事業を東南アジアに拡大することに決めた。" },
+  { t:"語彙", s:"All employees are required to ____ with the safety regulations.", c:["comply","apply","reply","rely"], a:0,
+    r:"comply with ~(~に従う) / apply for ~(~に応募する) / reply to ~(~に返信する) / rely on ~(~に頼る)。後ろの with と結びつくのは comply です。", ja:"全従業員は安全規則に従う必要がある。" },
+  { t:"語彙", s:"The warranty will ____ at the end of this month.", c:["expire","expand","exceed","examine"], a:0,
+    r:"expire(期限が切れる) / expand(拡大する) / exceed(超える) / examine(調べる)。保証が「切れる」ので expire です。", ja:"保証は今月末で期限が切れる。" },
+  { t:"語彙", s:"We need to ____ a meeting room for Friday's presentation.", c:["reserve","deserve","preserve","observe"], a:0,
+    r:"reserve(予約する) / deserve(~に値する) / preserve(保存する) / observe(観察する)。会議室を「予約する」ので reserve です。", ja:"金曜日のプレゼンのために会議室を予約する必要がある。" },
+  { t:"語彙", s:"The new tax law will ____ all small businesses.", c:["affect","suspect","inspect","neglect"], a:0,
+    r:"affect(影響する) / suspect(疑う) / inspect(検査する) / neglect(怠る)。法律が「影響を与える」ので affect です。", ja:"新しい税法はすべての小規模事業者に影響を与えるだろう。" },
+  { t:"語彙", s:"Our company offers a ____ benefits package to all employees.", c:["comprehensive","reluctant","hesitant","obvious"], a:0,
+    r:"comprehensive(包括的な) / reluctant(気が進まない) / hesitant(ためらう) / obvious(明らかな)。福利厚生が「充実した」ので comprehensive です。", ja:"当社は全従業員に充実した福利厚生を提供している。" },
+  { t:"語彙", s:"The restaurant is famous for its ____ service and fresh ingredients.", c:["prompt","vacant","tentative","hazardous"], a:0,
+    r:"prompt(迅速な) / vacant(空いている) / tentative(仮の) / hazardous(危険な)。サービスが「迅速な」ので prompt です。", ja:"そのレストランは迅速なサービスと新鮮な食材で有名だ。" },
+  { t:"語彙", s:"The new system is ____ more efficient than the old one.", c:["considerably","hardly","barely","seldom"], a:0,
+    r:"considerably(かなり) / hardly(ほとんど~ない) / barely(かろうじて) / seldom(めったに~ない)。比較級を強めて「かなり」と言うので considerably です。", ja:"新システムは旧システムよりかなり効率的だ。" },
+  { t:"語彙", s:"Sales have ____ sharply since last spring.", c:["increased","assigned","obtained","required"], a:0,
+    r:"increase(増える) / assign(割り当てる) / obtain(得る) / require(必要とする)。目的語がなく sharply(急激に)が続くので、自動詞の increased です。", ja:"売上は昨年の春から急激に伸びている。" },
+  { t:"語彙", s:"The package must be ____ to the customer by Thursday.", c:["delivered","devoted","demanded","decorated"], a:0,
+    r:"deliver(配達する) / devote(捧げる) / demand(要求する) / decorate(飾る)。荷物が「届けられる」ので delivered です。", ja:"荷物は木曜日までにお客様へ届けなければならない。" }
+];
+
 const POOL_PC = [
   { s:"The office will be closed ____ the holidays.", c:["during","while","because","although"], a:0,
     r:"後ろは名詞(the holidays)なので前置詞 during。while は後ろに S+V が続く接続詞です。(during + 名詞 / while + S+V)", ja:"事務所は休暇期間中は閉まる。" },
@@ -164,7 +226,19 @@ const POOL_PC = [
   { s:"The staff worked overtime ____ the deadline was approaching.", c:["as","despite","due to","during"], a:0,
     r:"後ろが S+V(the deadline was approaching)なので接続詞。as は「~なので」の意味で使えます。despite / due to / during は前置詞です。", ja:"締め切りが近づいていたため、スタッフは残業した。" },
   { s:"He studied law at night ____ he worked at the bank.", c:["during","while","despite","in spite of"], a:1,
-    r:"後ろが S+V(he worked at the bank)なので接続詞 while(~する間に)。during / despite / in spite of は前置詞です。", ja:"彼は銀行で働きながら、夜に法律を勉強した。" }
+    r:"後ろが S+V(he worked at the bank)なので接続詞 while(~する間に)。during / despite / in spite of は前置詞です。", ja:"彼は銀行で働きながら、夜に法律を勉強した。" },
+  { s:"____ the renovation, the museum will remain open.", c:["During","While","Although","Because"], a:0,
+    r:"後ろは名詞(the renovation)なので前置詞 During。While / Although / Because は後ろに S+V が必要な接続詞です。", ja:"改装中も、美術館は開館したままだ。" },
+  { s:"Customers can park for free ____ they shop in our store.", c:["during","while","despite","because of"], a:1,
+    r:"後ろが S+V(they shop)なので接続詞 while。during / despite / because of は前置詞で、名詞が必要です。", ja:"お客様は店内でお買い物中は無料で駐車できる。" },
+  { s:"The meeting was postponed ____ the director's illness.", c:["because","because of","although","so that"], a:1,
+    r:"後ろは名詞句(the director's illness)なので前置詞句 because of。because は S+V が続く接続詞です。", ja:"部長の病気のため、会議は延期された。" },
+  { s:"____ our efforts, we could not meet the deadline.", c:["Although","In spite of","Because","Even though"], a:1,
+    r:"後ろは名詞(our efforts)なので前置詞句 In spite of(= despite)。Although / Because / Even though は接続詞です。", ja:"私たちの努力にもかかわらず、締め切りに間に合わなかった。" },
+  { s:"____ the shop was crowded, we found a table quickly.", c:["Despite","Though","In spite of","Due to"], a:1,
+    r:"後ろが S+V(the shop was crowded)なので接続詞 Though。Despite / In spite of / Due to は前置詞です。", ja:"店は混んでいたが、私たちはすぐに席を見つけた。" },
+  { s:"We will begin the tour ____ everyone has arrived.", c:["once","during","despite","owing to"], a:0,
+    r:"後ろが S+V(everyone has arrived)なので接続詞 once(~したらすぐ)。during / despite / owing to は前置詞です。", ja:"全員が到着したら、ツアーを始めます。" }
 ];
 
 // ===== 代名詞・関係詞・比較プール =====
@@ -192,7 +266,19 @@ const POOL_MISC = [
   { t:"比較(最上級)", s:"Ms. Davis is the ____ qualified applicant for the position.", c:["more","most","much","many"], a:1,
     r:"the + 【最上級】+ 名詞 の形です。most qualified(最も適任な)が正解です。", ja:"デイビスさんはその職に最も適した応募者だ。" },
   { t:"比較(倍数表現)", s:"The new factory produces twice as ____ goods as the old one.", c:["many","much","more","most"], a:0,
-    r:"「倍数 + as many + 可算名詞の複数形 + as」の形です。goods(製品)は可算名詞の複数形なので many です。", ja:"新工場は旧工場の2倍の製品を生産している。" }
+    r:"「倍数 + as many + 可算名詞の複数形 + as」の形です。goods(製品)は可算名詞の複数形なので many です。", ja:"新工場は旧工場の2倍の製品を生産している。" },
+  { t:"代名詞(目的格)", s:"Please contact ____ if you have any questions.", c:["we","our","us","ours"], a:2,
+    r:"動詞 contact の目的語になるので【目的格 us】が入ります。we は主格、our は所有格、ours は所有代名詞です。", ja:"ご質問があれば、私たちにご連絡ください。" },
+  { t:"代名詞(再帰代名詞)", s:"The manager asked the staff to do the work ____.", c:["they","their","them","themselves"], a:3,
+    r:"主語(the staff)自身が行うことを表す【再帰代名詞 themselves】が入ります(自分たちで)。", ja:"部長はスタッフに、その仕事を自分たちでやるよう頼んだ。" },
+  { t:"関係代名詞(主格)", s:"Employees ____ complete the form will receive a bonus.", c:["who","whom","whose","which"], a:0,
+    r:"先行詞が人(Employees)で、直後に動詞(complete)が来るため【主格 who】です。", ja:"用紙を記入した従業員は賞与を受け取る。" },
+  { t:"関係代名詞(非制限用法)", s:"The conference, ____ was held in Tokyo, attracted 500 people.", c:["that","which","who","whose"], a:1,
+    r:"カンマの後ろ(非制限用法)では that は使えません。先行詞が物(conference)なので【which】が正解です。", ja:"その会議は東京で開かれ、500人を集めた。" },
+  { t:"比較(比較級)", s:"Our new model is far ____ than the old one.", c:["reliable","more reliable","most reliable","reliably"], a:1,
+    r:"than があるので比較級。reliable のような長い形容詞は more を付けます。far は比較級を強調します。", ja:"新モデルは旧モデルよりはるかに信頼できる。" },
+  { t:"関係代名詞(所有格)", s:"The staff members ____ names are listed below will attend the seminar.", c:["who","which","whose","whom"], a:2,
+    r:"先行詞(staff members)と名詞(names)が「〜の」の関係にあるので【whose】が正解です。", ja:"下に名前が載っているスタッフがセミナーに出席する。" }
 ];
 
 // ===== モード定義 =====
@@ -201,7 +287,7 @@ const MODES = [
   { id: 2, name: "動詞問題クイズ", desc: "主述の一致・態・時制(10問)" },
   { id: 3, name: "前置詞 vs 接続詞クイズ", desc: "後ろは名詞？ それとも S+V？(10問)" },
   { id: 4, name: "代名詞・関係詞・比較クイズ", desc: "格の使い分け・whose/where・比較級・最上級(10問)" },
-  { id: 5, name: "Part 5 総合予想模試", desc: "全ジャンルからランダム出題(10 / 20 / 30問)" }
+  { id: 5, name: "Part 5 総合予想模試", desc: "全ジャンルの4択穴埋め問題からランダム出題(10 / 20 / 30問)" }
 ];
 
 // ===== ユーティリティ =====
@@ -221,11 +307,13 @@ function build(mode, n) {
   const verb = () => shuffle(POOL_VERB).map(q => toP5(q, "動詞(" + q.t + ")"));
   const pc = () => shuffle(POOL_PC).map(q => toP5(q, "前置詞 vs 接続詞"));
   const misc = () => shuffle(POOL_MISC).map(q => toP5(q, q.t));
+  const vocab = () => shuffle(POOL_VOCAB).map(q => toP5(q, "語彙"));
   if (mode === 1) return pos().slice(0, 7).concat(form().slice(0, 5));
   if (mode === 2) return verb().slice(0, 10);
   if (mode === 3) return pc().slice(0, 10);
   if (mode === 4) return misc().slice(0, 10);
-  return shuffle(pos().concat(form(), verb(), pc(), misc())).slice(0, n);
+  // 総合模試は「4択の穴埋め問題」だけから出題（品詞単語クイズは含めない）
+  return shuffle(form().concat(verb(), pc(), misc(), vocab())).slice(0, n);
 }
 
 // ===== グローバル状態管理 =====
